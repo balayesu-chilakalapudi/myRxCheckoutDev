@@ -1,0 +1,131 @@
+.btnAddPayment {
+    padding: 0;
+    border-radius: 24px;
+    height: 40px;
+
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    width: 230px;
+
+    border: 1px solid #071A3C;
+    background-color: #071A3C;
+    color: #fff
+}
+
+
+.checkoutSection--body {
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .25);
+    color: #888;
+    margin-bottom: 1em;
+}
+
+.btnAddAddress{
+    padding: 0;
+    border-radius: 24px;
+    height: 40px;
+
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    width: 180px;
+
+    border: 1px solid #071A3C;
+    background-color: #071A3C;
+    color: #fff
+}
+
+/* DS */
+.txt32 {
+	font-weight: 400;
+	font-size: 32px;
+	line-height: 40px;
+	color: #000000;
+}
+.txt24 {
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 30px;
+	text-align: right;
+	color: #444444;
+}
+.txt18 {
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+	color: #444444;
+}
+.txt16 {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	color: #888888;
+	font-style: normal;
+}
+.txt14 {
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 18px;
+	color: #888888;
+}
+.txtDark {
+	color: #444444;
+}
+.textLink {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	text-align: right;
+	color: #5592FF;
+}
+
+.btn {
+	height: 54px;
+	min-width: 54px;
+	color: #fff;
+	background: #071A3C;
+	border-radius: 27px;
+
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+	text-align: center;
+	color: #FFFFFF;
+	padding: 0 20px;
+	border: 0;
+	white-space: nowrap;
+}
+
+.slds-sticky {
+	position: -webkit-sticky;
+    position: sticky;
+    top: 130px;
+    right: 0;
+}
+
+@media (max-width: 1023px) {
+	.slds-wrap-ds {
+		-ms-flex-wrap:wrap;
+		flex-wrap:wrap;
+		-webkit-box-align:start;
+		-ms-flex-align:start;
+		align-items:flex-start;
+	}
+}
+@media (max-width: 767px) {
+	
+	.txt32 {
+		font-size: 28px;
+		line-height: 32px;
+		letter-spacing: -1px;
+	}
+	.btn {
+		height: 32px;
+		min-width: 32px;
+		padding: 0;
+	}
+	
+}

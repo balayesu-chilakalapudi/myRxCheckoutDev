@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Imprimis Rx Checkout New</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="recordId" type="String" description="Cart Id of checkout session" />
+            <property name="cartItemList" type="@salesforce/schema/CartItem[]" description="Cart items for the cart in the session" />
+            <property name="cart" type="@salesforce/schema/WebCart" description="Cart record for session" />
+            <property name="cartFrequency" type="String" description="Cart recurring frequency" />
+            <property name="iscartRecurring" type="Boolean" description="Cart is recurring or not" />
+            <property name="finalCartState" type="@salesforce/schema/WebCart" description="Cart copy for order creation after place order button is clicked" />
+            <property name="contactPointAddressList" type="@salesforce/schema/ContactPointAddress[]" description="Billing and Shipping addresses" />
+            <property name="contact" type="@salesforce/schema/Contact" description="Contact for checkout session" />
+            <property name="shippingMethodList" type="@salesforce/schema/Shipping_Method__c[]" description="Active shipping methods" />
+            <property name="orderDeliveryMethodsList" type="@salesforce/schema/OrderDeliveryMethod[]" description="Active shipping methods" />
+            <property name="paymentMethods" type="@salesforce/schema/CardPaymentMethod[]" description="Accounts stored payment methods" />
+            <property name="buyerProfileName" type="String" description="Name of current buyers profile" />
+            <property name="buyerManagerProfileName" type="String" description="Name of Buyer Manager Profile" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

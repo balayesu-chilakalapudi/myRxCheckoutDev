@@ -1,0 +1,142 @@
+<!-- Checkout Addresses -->
+<template>
+	<div if:true={showSpinner}>
+		<lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+	</div>
+
+	<div data-id="checkoutBlock">
+		<div class="imprimisRxOrderCheckout slds-m-vertical_xx-large">
+			<div class="slds-container_xx-large slds-container_center">
+
+				<template if:true={loaded}>
+					
+						<div class="slds-grid slds-wrap-ds slds-gutters_direct-large">
+							<div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12">
+
+								<!-- Checkout Title -->	
+								<div class="txt32 slds-m-bottom_large">Review and Confirm your Order</div>
+
+								<!--Facility Selection-->
+								<c-checkout-section-dev step-number="1" step-title="Select Facility">
+									<c-checkout-facility-selector slot="body"></c-checkout-facility-selector>
+								</c-checkout-section-dev>
+								
+								<!-- Payment Method -->
+								<c-checkout-section-dev step-number="2" step-title="Select your method of payment">
+									<c-checkout-payment-method
+										slot="body"
+										if:true={showSections}
+										facility={accId}
+										payment-methods={paymentMethods}
+										buyer-manager={buyerManager}
+										onpaymentmethodresponse={handlePaymentMethodResponse}
+										onnewpaymentadded={handleNewPaymentMethodEvent}
+										ongetpayments={handleGetPayments}
+										manage-payments={managePayments}
+										cart-state={cartState}
+									></c-checkout-payment-method>
+
+									<div if:false={showSections} slot="body">
+										Please Select a Facility To Continue.
+									</div>
+
+									<template if:false={paymentMethodError}>
+										<span slot="action">
+											<button
+												onclick={showAddPaymentModal}
+												disabled={paymentMethodAccess}
+												class="btn"
+												title="Add Payment Method"
+											>+ <span class="slds-show_medium">Add Payment Method</span></button>
+										</span>
+									</template>
+								</c-checkout-section-dev>
+
+								<!-- Shipping and Billing -->
+								<c-checkout-section-dev step-number="3" step-title="Purchase Order">
+									<c-checkout-purchase-order-dev slot="body" cart-state={cartState} ></c-checkout-purchase-order-dev>
+								</c-checkout-section-dev>
+
+								<!-- Shipping and Billing -->
+								<c-checkout-section-dev step-number="4" step-title="Review your billing and shipping address" >
+									<c-checkout-addresses-dev
+										if:true={showSections}
+										facility={accId}
+										onadd_address={showAddAddressModal}
+										slot="body"
+										type={addressType}
+										contact-point-address-list={contactPointAddressList}
+										cart-state={cartState}
+									></c-checkout-addresses-dev>
+									<div if:false={showSections} slot="body">
+										Please Select Facility To Continue.
+									</div>
+									<span slot="action" if:true={showSections}>
+										<button
+											onclick={showAddAddressModal}
+											class="btn"
+											title="Add Address"
+										>+ <span class="slds-show_medium">Add Address</span></button>
+									</span>
+								</c-checkout-section-dev>
+
+								<!-- Review Order -->
+								<c-checkout-section-dev step-number="5" step-title="Review your Order" allow-overflow="true">									
+									<c-checkout-order-review-dev slot="body" if:true={showSections} cart-item-list={cartItemList} cart-state={cartState} final-value={finalValue} oncartitemdelete={handleCartUpdate} onrefresh_promo_code_cmp={refreshPromoCodeCmp} account-id={accId}></c-checkout-order-review-dev>
+								</c-checkout-section-dev>
+
+								<!-- Shipping Option -->
+								<c-checkout-section-dev step-number="6" step-title="Select your shipping options">
+									<c-checkout-shipping-options-dev
+										slot="body"
+										order-delivery-method-list={orderDeliveryMethodsList}
+										cold-item-in-cart={coldShippingRequired}
+										cold-shipping-items={coldItemsWithMedia}
+										cold-item-count={coldItemCount}
+										cart-state={cartState}
+									></c-checkout-shipping-options-dev>
+								</c-checkout-section-dev>
+
+								<!-- Recurring Order -->
+								<c-checkout-section-dev step-number="7" step-title="Order Frequency" allow-overflow="true">
+									<c-checkout-recurring-order-dev slot="body" cart-state={cartState} frequency={cartFrequency} recurrence={iscartRecurring}></c-checkout-recurring-order-dev>
+								</c-checkout-section-dev>
+
+								<!-- Promo Code -->
+								<c-checkout-section-dev step-number="8" step-title="Promo Code" allow-overflow="true">
+									<c-checkout-promo-code slot="body" cart-state={cartState} cart={cart}></c-checkout-promo-code>
+								</c-checkout-section-dev>
+
+							</div>
+							<div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+								
+								<div class="slds-sticky">
+
+									<c-checkout-section-dev step-title="Place Your Order" allow-overflow="true">
+										<c-checkout-summary
+											slot="body"
+											available-actions={availableActions}
+											if:true={showCheckoutSummary}
+											cart-state={cartState}
+											effective-shipping-amount={effectiveShippingAmount}
+											auth-error={authError}
+											auth-error-message={authErrorMessage}
+											validation-errors={errors}
+											has-error={hasError}
+										></c-checkout-summary>
+									</c-checkout-section-dev> 
+
+								</div>
+								
+							</div>
+						</div>
+					
+				</template>			
+
+			</div>
+		</div>
+	</div>
+	<template if:true={checkoutReview}>
+		<c-checkout-review shipping-type={shippingType} cart-state={cartState} payment-methods={_paymentMethods} onplaceorder={placeOrderFromReview} onbacktocheckout={backToCheckout}></c-checkout-review>
+	</template>
+</template>

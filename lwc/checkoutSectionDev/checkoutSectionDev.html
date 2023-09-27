@@ -1,0 +1,32 @@
+<!-- Copyright (c) 2021 ForeFront, Inc. All Rights Reserved. Subject to ForeFront, Inc. licensing. -->
+
+
+<!-- Checkout Section -->
+<template>
+    
+    <div class="coCard">
+        <div class="cocHead">
+
+            <div class="slds-grid slds-grid_vertical-align-center">
+                <div>
+                    <div if:true={stepNumber}>
+                        <div class="num">
+                            {stepNumber}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                  <div class="caption" style={captionStyle}>{stepTitle}</div>
+                </div>
+                <div class="slds-col_bump-left">
+                    <slot name="action"></slot> 
+                </div>
+            </div>
+            
+        </div>
+        <div class="cocContent">
+            <slot name="body"></slot>
+        </div>
+    </div>
+    
+</template>

@@ -1,0 +1,239 @@
+<!-- Copyright (c) 2021 ForeFront, Inc. All Rights Reserved. Subject to ForeFront, Inc. licensing. -->
+
+<!-- Checkout Order Review -->
+<template>
+	<lightning-layout multiple-rows>
+		<lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12">
+			<div>
+				<div class="slds-is-relative slds-p-around_x-large" if:false={cartItemsLoaded}>
+					<lightning-spinner variant="brand" size="medium" if:false={cartItemsLoaded}></lightning-spinner>
+				</div>
+				<!-- Desktop -->
+				<table
+					class="slds-table slds-no-row-hover fixed mobile-hide"
+					aria-label="Review Order Items"
+					if:true={cartItemsLoaded}
+					style="font-size:14px;"
+				>
+					<thead class="slds-p-bottom_small">
+						<tr class="slds-line-height_reset">
+							<th scope="col" class="txt18" colspan="4">Products in cart</th>
+							
+							<th scope="col" class="qty-col" style="min-width: 130px;width:130px">
+								<div class="slds-cell-wrap slds-text-align_center txt18">QTY</div>
+							</th>
+							<th scope="col" class="total-col" style="min-width: 100px;width:100px">
+								<div class="slds-cell-wrap slds-text-align_right txt18">Total</div>
+							</th>
+							<th scope="col" style="width:50px"></th>
+						</tr>
+					</thead>
+					<tbody class="item-table">
+						<tr valign="top" class="slds-hint-parent slds-border_top" for:each={cartItemState} for:item="item" key={item.Id}>
+							<td width="5%">
+								<div class="slds-cell-wrap image-container name-link" data-id={item.Product2Id} onclick={goToPDP}>
+									<img src={item.imageUrl} alt="Product Image" class="product-image" />
+								</div>
+							</td>
+							<td colspan="3">
+								<!--<div class="slds-cell-wrap name-link" data-id={item.Product2Id} onclick={goToPDP}>{item.name}</div>-->
+                                <div class="slds-grid slds-wrap">
+									<div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+										<div class="slds-truncate txt18 txtBlack" title={item.name}>{item.name}</div>
+										<div class="slds-m-top_x-small">Product Code</div>
+										<div>{item.ProductCode}</div>
+									</div>
+									<div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+										<div>Price per Unit</div>
+										<lightning-formatted-number format-style="currency" currency-code="USD"
+                                                    value={item.UnitAdjustedPrice}></lightning-formatted-number>
+										<!-- <div>${item.UnitAdjustedPrice}</div> -->
+									</div>
+								</div>
+
+								<div class="slds-form-element slds-m-top_small">
+									<label class="label txt14">Medical Necessity</label>
+									<div class="slds-form-element__control wcsSelect">
+										<div class="select-arrow-box">
+											<select data-id={item.Id} class="select" name="medical" onchange={handleNecessityChange}>
+												<template for:each = {item.medicalNecessity} for:item="listViewItem">
+													<option  key={listViewItem.value} value={listViewItem.label} selected={listViewItem.selected}>{listViewItem.label}</option>
+												</template>
+											</select>											
+									 </div>
+									</div>
+								</div>
+								<div class="slds-form-element slds-m-top_small" if:true={item.otherMed}>
+									<label for="description" class="label txt14">Other Clinical Difference</label>
+									<div class="slds-form-element__control">
+										<textarea data-id={item.Id} required onchange={handleClinicalDiff}>{item.Other_Clinical_Options__c}</textarea>
+									</div>	
+								</div>
+
+							</td>
+							<td class="slds-text-align_center" style="padding-top: 10px !important;">
+								<span style="display:inline-block;margin-left: -5px;">
+									<!--<div class="numInputContainer" style="width:65px">
+										<input class="numInputField" type="number" name={item.Product2Id} value={item.Quantity} min="1" max="1000" onblur={handleChangeQuantity} data-id={item.Product2Id}>
+										<div class="numInputBtn">
+										<div>
+											<button type="button" class="slds-button slds-text-link_reset" data-origin="inputQty" data-id={item.Product2Id} onclick={handleQtyPlus}>
+											<img src={icoArrowUp} alt="+" />
+											</button>
+										</div>
+										<div>
+											<button type="button" class="slds-button slds-text-link_reset" data-origin="inputQty" data-id={item.Product2Id} onclick={handleQtyMinus}>
+											<img src={icoArrowDown} alt="-"/>
+											</button>
+										</div>
+										</div>
+									</div>-->
+									<div class="input-group">
+										<button type="button" value="-" class="button-minus" data-id={item.Product2Id}
+										onclick={handleQtyMinus} data-origin="inputQty">
+											<lightning-icon icon-name="utility:dash" size="xx-small" alternative-text="Error!" title="Error"></lightning-icon>
+										</button>
+										<input type="number" step="1" class="quantity-field" name={item.Product2Id} value={item.Quantity}
+										min="1" max="1000" onblur={handleChangeQuantity} data-id={item.Product2Id}>
+										<button type="button" value="+" class="button-plus" data-id={item.Product2Id}
+										onclick={handleQtyPlus} data-origin="inputQty">
+											<lightning-icon icon-name="utility:add" size="xx-small" alternative-text="Error!" title="Error"></lightning-icon>
+										</button>
+									</div>
+								</span> 
+								<div class="slds-p-top_xx-small">
+									{item.QuantityUnitOfMeasure}(es) <br>
+									<span class="slds-text-body_small">{item.Quantity_Per_Box__c} per box</span>
+								</div>
+							</td>
+							<td>
+								<div class="slds-cell-wrap slds-text-align_right txt16 txtBlack">
+									<lightning-formatted-number
+										value={item.TotalPrice}
+										format-style="currency"
+										currency-code="USD"
+									></lightning-formatted-number>
+							       <br>
+								   		<!-- <template if:true={item.Dollar_Discount__c}> -->
+										<c-display-promo-code cart-state-discount-product={cartState.Discounted_Product__c} item-product-id={item.Product2Id} promo-code-discount={cartState.Promo_Code_Discount_Total__c}></c-display-promo-code>
+								
+										<!-- </template> -->
+							
+								</div>
+							</td>
+							<td class="slds-text-align_right">
+								<img src={icoRemoveCircle} alt="x" class="imgRemove" data-id={item.Id} onclick={deleteCartItem}>
+							</td>
+						</tr>
+						<tr class="slds-border_top">
+							<td colspan="5">
+								<div class="slds-text-align_right slds-m-top_medium">
+									<span class="txt18">Sub Total:</span>
+								</div>
+							</td>
+							<td>
+								<div class="slds-text-align_right slds-m-top_medium" if:false={total}>
+									<span class="txt24">
+										<lightning-formatted-number
+											value={cartState.TotalProductAmount}
+											format-style="currency"
+											currency-code="USD"
+										></lightning-formatted-number>
+									</span>
+								</div>
+								<div class="slds-text-align_right slds-m-top_medium" if:true={total}>
+									<span class="txt24">
+										<lightning-formatted-number
+											value={total}
+											format-style="currency"
+											currency-code="USD"
+										></lightning-formatted-number>
+									</span>
+								</div>
+							</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- /Desktop -->
+				<!-- Mobile -->
+				<div class="product-container-mobile">
+					<div
+						class="slds-hint-parent mobile-show slds-text-align_center product-box"
+						for:each={cartItemState}
+						for:item="item"
+						key={item.Id}
+					>
+						<div class="slds-border_bottom slds-p-bottom_large">
+							<div class="slds-cell-wrap image-container slds-m-top_large">
+								<img src={item.imageUrl} alt="Product Image" class="product-image" />
+							</div>
+							<div class="slds-m-top_x-small">
+								<b>Product Name&nbsp;</b>
+								{item.name}
+							</div>
+							<div class="slds-m-top_x-small">
+								<b>Product Code&nbsp;</b>
+								{item.ProductCode}
+							</div>
+							<div class="slds-m-top_x-small slds-text-align_center">
+								<b>Qty&nbsp;</b>
+								{item.Quantity} Box(es) - {item.Quantity_Per_Box__c} per box
+							</div>
+							<div class="slds-form-element slds-m-top_small">
+								<b>Medical Necessity</b>
+								<div class="slds-form-element__control wcsSelect">
+									<div class="select-arrow-box">
+										<select data-id={item.Id} class="select" name="medical" onchange={handleNecessityChange}>
+											<template for:each = {item.medicalNecessity} for:item="listViewItem">
+												<option  key={listViewItem} value={listViewItem}>{listViewItem}</option>
+											</template>
+										</select>
+								 </div>
+								</div>
+							</div>
+							<div class="slds-form-element slds-m-top_small" if:true={item.otherMed}>
+								<b>Other Clinical Difference</b>
+								<div class="slds-form-element__control">
+									<textarea data-id={item.Id} required onchange={handleClinicalDiff}>{item.Other_Clinical_Options__c}</textarea>
+								</div>	
+							</div>
+							<div class="slds-m-top_x-small slds-text-align_center">
+								<div class="input-group">
+									<button type="button" value="-" class="button-minus" data-id={item.Product2Id}
+									onclick={handleQtyMinus} data-origin="inputQty">
+										<lightning-icon icon-name="utility:dash" size="xx-small" alternative-text="Error!" title="Error"></lightning-icon>
+									</button>
+									<input type="number" step="1" class="quantity-field" name={item.Product2Id} value={item.Quantity}
+									min="1" max="1000" onblur={handleChangeQuantity} data-id={item.Product2Id}>
+									<button type="button" value="+" class="button-plus" data-id={item.Product2Id}
+									onclick={handleQtyPlus} data-origin="inputQty">
+										<lightning-icon icon-name="utility:add" size="xx-small" alternative-text="Error!" title="Error"></lightning-icon>
+									</button>
+								</div>
+							</div>
+							<div class="slds-cell-wrap slds-text-align_center slds-m-top_x-small">
+								<b>Total&nbsp;</b>
+								<lightning-formatted-number
+									value={item.TotalPrice}
+									format-style="currency"
+									currency-code="USD"
+								></lightning-formatted-number>
+							</div>
+							<div class="slds-cell-wrap slds-text-align_center slds-m-top_x-small">
+								<lightning-button-icon icon-name="utility:delete" 	alternative-text="Remove"
+																					value={item.Id}
+																					data-id={item.Id}
+																					variant="bare"
+																					onclick={deleteCartItem}
+																					title="Remove">
+																	</lightning-button-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Mobile -->
+			</div>
+		</lightning-layout-item>
+	</lightning-layout>
+</template>

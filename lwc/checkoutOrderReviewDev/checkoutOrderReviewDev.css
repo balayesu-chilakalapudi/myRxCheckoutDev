@@ -1,0 +1,286 @@
+input[type="button"] {
+	-webkit-appearance: button;
+	cursor: pointer;
+  }
+  
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+  }
+  
+  .input-group input[type='button'] {
+	background-color: #eeeeee;
+	min-width: 30px;
+	width: auto;
+	transition: all 300ms ease;
+  }
+  
+  .input-group .button-minus,
+  .input-group .button-plus {
+	font-weight: bold;
+	height: 30px;
+	padding: 0;
+	width: 30px;
+	border: 1.5px solid #0000004d;
+	box-sizing: border-box;
+	margin: 0;
+	outline: none;
+	border-radius: 10px;
+	background-color: white;
+  }
+  
+  .input-group .quantity-field {
+	border: 1.5px solid #0000004d;
+	height: 30px;  
+	text-align: center;
+	width: 47px;
+	font-weight: bolder;
+	display: inline-block;
+	font-size: 14px;
+	margin: 0 0 5px;
+	resize: vertical;
+	margin-left: 10px;
+	border-radius: 10px;
+	margin-right: 10px;
+  }
+  
+  .button-plus {
+	left: -13px;
+  }
+  
+  input[type="number"] {
+	-moz-appearance: textfield;
+	-webkit-appearance: none;
+  }
+  
+  .name-link {
+	cursor: pointer;
+	justify-self: flex-start;
+	align-self: flex-start;
+}
+
+.image-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100px;
+}
+
+textarea{
+    padding: .6em 1.6em;
+	border: 1.5px solid #0000004d;
+    border-radius: 10px;
+    height: 50px;
+    width: 100%;
+    line-height: 16px;
+    font-size: 16px;
+    color:#000;
+    resize: none;
+  }
+
+.product-image {
+	max-width: 100px;
+  	max-height: 100px;
+}
+
+.product-col {
+	text-align: center;
+	color: #000;
+	padding-left: 0;
+	width: 132px;
+}
+
+.overflow-hidden[c-checkoutSection_checkoutSection] {
+	overflow: unset;
+	overflow-x: auto;
+}
+
+.product-container-mobile .product-box:nth-child(1) div .image-container {
+	margin-top: 0;
+}
+
+.product-container-mobile .product-box:nth-child(2) div {
+	border-bottom: 0 !important;
+}
+
+.fixed {
+	table-layout: fixed;
+}
+
+.qty-col {
+	width: 140px;
+}
+
+.total-col {
+	width: 95px;
+}
+
+.mobile-show {
+	display: none;
+}
+
+.mobile-hide {
+	display: table;
+}
+
+@media (max-width: 768px) {
+	.mobile-show {
+		display: initial;
+	}
+
+	.mobile-hide {
+		display: none;
+	}
+}
+
+
+/* DS */
+.txt32 {
+	font-weight: 400;
+	font-size: 32px;
+	line-height: 40px;
+	color: #000000;
+}
+.txt24 {
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 30px;
+	text-align: right;
+	color: #444444;
+}
+.txt18 {
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+	color: #444444;
+}
+.txt16 {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	color: #888888;
+	font-style: normal;
+}
+.txt14 {
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 18px;
+	color: #888888;
+}
+.txtDark {
+	color: #444444;
+}
+.txtBlack {
+	color: #000;
+}
+.textLink {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	text-align: right;
+	color: #5592FF;
+}
+
+.label {
+	padding-left: 0.5em;
+	padding-bottom: 3px;
+	display: inline-block;
+}
+.input, .select {
+	border: 1.5px solid #0000004d;
+	box-sizing: border-box;
+	border-radius: 10px;
+	padding: .6em 1em;
+	width: 100%;
+    height: 36px;
+    line-height: 16px;
+    font-size: 16px;
+    color:#000;
+}
+.select {
+	padding: 0 2.5em 0 1em;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+	font-size: 14px;
+	line-height: 18px;
+	color: #000000;
+}
+.wcsSelect {
+    position: relative;
+}
+.wcsSelect .arrow {
+    position: absolute;
+    right: 10px;
+    top: 9px;
+}
+
+
+/* input qty */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.numInputContainer {
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    width: 100%;
+
+    border: 1px solid #000;
+    height: 32px;
+
+    background: #BAD2FE;
+    border: 1px solid #BAD2FE;
+    box-sizing: border-box;
+    border-radius: 50px;
+}
+.numInputBtn {
+    padding: 2px 0;
+    color: white;
+    min-width: 25px;
+    text-align: center;
+    line-height: 12px;
+}
+.numInputBtn img {
+    width:10px;
+}
+.numInputBtn button:active,
+.numInputBtn button:focus {
+    border: 0;
+    box-shadow: none;
+}
+.numInputField {
+    width: 100%;
+    padding: 10px 0 10px 5px;
+    outline: none;
+    border: 0 !important;
+    background: #BAD2FE;
+    box-sizing: border-box;
+    border-radius: 50px;
+    font-weight: 400;
+    font-size: 20px;
+	
+    color: #000000;
+    text-align: center;
+}
+
+
+.item-table td {
+    padding: 1rem 0.5rem !important;
+}
+
+.select-arrow-box{position:relative;}
+
+.select-arrow-box select{
+	pointer-events: all;
+    background-image: url(/resource/1670421256000/iconChevronDown);
+    background-repeat: no-repeat;
+    background-position: 98%;
+    background-size: 20px;
+}

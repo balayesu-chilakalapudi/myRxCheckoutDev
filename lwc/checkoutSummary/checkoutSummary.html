@@ -1,0 +1,228 @@
+<!-- Copyright (c) 2021 ForeFront, Inc. All Rights Reserved. Subject to ForeFront, Inc. licensing. -->
+
+
+<!-- Checkout Summary -->
+<template>
+    
+    <lightning-layout multiple-rows>
+        <lightning-layout-item
+                padding="around-small"
+                size="12"
+                small-device-size="12"
+                medium-device-size="12">
+            <div class="slds-text-align_left">
+                <div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+                    <span class="txt20">Order Summary</span>
+                </div>
+            </div>
+            <div class="slds-text-align_left">
+                <div class="slds-m-top_small">
+
+                    <div class="slds-grid slds-grid_align-spread">
+                        <div class="slds-col">
+                          <span class="txt18">Sub Total</span>
+                        </div>
+                        <div class="slds-col">
+                          <span class="txt22">
+                            <lightning-formatted-number
+                              value={subtotal}
+                              format-style="currency"
+                              currency-code="USD"
+                              minimum-fraction-digits="2"
+                              maximum-fraction-digits="2">
+                            </lightning-formatted-number>
+                          </span>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <template if:true={hasBulkDiscount}>
+                    <div class="slds-m-top_small">
+
+                        <div class="slds-grid slds-grid_align-spread">
+                            <div class="slds-col">
+                              <span class="txt18">Discount:</span><br/>
+                              <span style="color:#888888">({discountInfo})</span>
+                            </div>
+                            <div class="slds-col">
+                              <span class="txt22">
+                                <lightning-formatted-number
+                                  value={cartState.Bulk_Discount_Total__c}
+                                  format-style="currency"
+                                  currency-code="USD"
+                                  minimum-fraction-digits="0"
+                                  maximum-fraction-digits="0">
+                                </lightning-formatted-number>
+                              </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </template>
+
+                <template if:true={hasPharmaPackDiscount}>
+                    <div class="slds-m-top_small">
+
+                        <div class="slds-grid slds-grid_align-spread">
+                            <div class="slds-col">
+                              <span class="txt18">Pharma Pack Discount</span>
+                            </div>
+                            <div class="slds-col">
+                              <span class="txt22">
+                                <lightning-formatted-number
+                                  value={cartState.Pharma_Pack_Discount_Total__c}
+                                  format-style="currency"
+                                  currency-code="USD"
+                                  minimum-fraction-digits="0"
+                                  maximum-fraction-digits="0">
+                                </lightning-formatted-number>
+                              </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </template>
+
+                <template if:true={hasPromoCodeDiscount}>
+                  <div class="slds-m-top_small">
+
+                      <div class="slds-grid slds-grid_align-spread">
+                          <div class="slds-col">
+                            <span class="txt18">Promo Discount</span>
+                          </div>
+                          <div class="slds-col">
+                            <span class="txt22">
+                              <lightning-formatted-number
+                                  value={cartState.Promo_Code_Discount_Total__c}
+                                  format-style="currency"
+                                  currency-code="USD"
+                                  minimum-fraction-digits="2"
+                                  maximum-fraction-digits="2">
+                              </lightning-formatted-number>
+                            </span>
+                          </div>
+                      </div>
+
+                  </div>
+                </template>
+
+                <div class="slds-m-top_small">
+
+                    <div class="slds-grid slds-grid_align-spread">
+                        <div class="slds-col">
+                          <span class="txt18">Shipping</span>
+                        </div>
+                        <div class="slds-col">
+                          <span class="txt22">
+                            <lightning-formatted-number
+                                value={effectiveShippingAmount}
+                                format-style="currency"
+                                currency-code="USD"
+                                minimum-fraction-digits="0"
+                                maximum-fraction-digits="0">
+                            </lightning-formatted-number>
+                          </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="slds-m-top_small slds-border_top slds-p-top_medium">
+
+                    <div class="slds-grid slds-grid_align-spread">
+                        <div class="slds-col">
+                          <span class="txt18">Total</span>
+                        </div>
+                        <div class="slds-col">
+                          <span class="txt24">
+                            <lightning-formatted-number
+                                value={grandTotal}
+                                format-style="currency"
+                                currency-code="USD"
+                                minimum-fraction-digits="2"
+                                maximum-fraction-digits="2">
+                            </lightning-formatted-number>
+                          </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="slds-m-top_large">
+
+                  <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                      <div class="slds-checkbox">
+                        <input type="checkbox" name="options" id="checkbox-iagree" value="iagree" onchange={handleTermsAccept} />
+                        <label class="slds-checkbox__label" for="checkbox-iagree">
+                          <span class="slds-checkbox_faux"></span>
+                          <span class="slds-form-element__label iagree_label">
+                            I agree to the <lightning-button label="terms and conditions" variant="base" onclick={goToTermsPage}></lightning-button> provided by ImprimisRx
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="slds-m-top_large">
+                    <div style="text-align: center;">
+                      <template if:true={hasError}>
+                        <lightning-button-icon  style="margin-right: 10px;" icon-class="slds-button_icon-error" size="large" icon-name="utility:error"  variant="bare" alternative-text="Settings" title="Settings" onblur={showErrorNotificationonblur} onclick={showErrorNotification}></lightning-button-icon>
+                        <template if:true={errorNotification}>
+                          <section class="slds-popover slds-popover_error slds-nubbin_top-left" role="dialog" style="max-width: 350px;    position: absolute;
+                          margin-top: 55px;margin-left: -47px;">                          
+                            <header class="slds-popover__header">
+                              <div class="slds-media slds-media_center slds-has-flexi-truncate ">
+                                <div class="slds-media__figure">
+                                  <span class="slds-icon_container slds-icon-utility-error">
+                                    <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#error"></use>
+                                    </svg>
+                                  </span>
+                                </div>
+                                <div class="slds-media__body">
+                                  <h2 class="slds-truncate slds-text-heading_medium" id="dialog-heading-id-1" title="We are currently unable to ship to the selected state">Unable to Ship !!</h2>
+                                </div>
+                              </div>
+                            </header>
+                            <div class="slds-popover__body" id="dialog-body-id-110">
+                              <p>Your order cannot be shipped to the chosen address at this time. Please select a shipping address in an eligible state</p>
+                            </div>
+                          </section>
+                        </template>
+                        <button
+                            style="background: #888888;"
+                            disabled={hasError}
+                            onclick={placeOrder}
+                            data-id="place-order"
+                            class="btn slds-button_stretch">REVIEW ORDER
+                        </button>
+                      </template>
+                      <template if:false={hasError}>
+                        <button
+                            onclick={placeOrder}
+                            data-id="place-order"
+                            class="btn slds-button_stretch">REVIEW ORDER
+                        </button>
+                      </template>
+
+                    </div>
+                </div>
+                <div class="slds-m-top_large" if:true={validationErrors}>
+                    <div for:each={validationErrors}
+                         for:item="error"
+                         key={error.Id}
+                         class="slds-text-color_error">
+                        <div class="slds-m-bottom_x-small">{error.message}</div>
+                    </div>
+                </div>
+
+                <div class="slds-m-top_large slds-text-color_error" if:true={authError}>
+                    There was an error Authorizing selected payment. Please try again or select another payment.
+                </div>
+
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    
+</template>

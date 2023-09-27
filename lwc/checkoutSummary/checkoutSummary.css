@@ -1,0 +1,86 @@
+/* Copyright (c) 2021 ForeFront, Inc. All Rights Reserved. Subject to ForeFront, Inc. licensing. */
+
+.inline-block {
+    display: inline-block;
+}
+
+/* DS */
+.txt32 {
+	font-weight: 400;
+	font-size: 32px;
+	line-height: 40px;
+	color: #000000;
+}
+.txt24 {
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 30px;
+	text-align: right;
+	color: #444444;
+}
+.txt22 {
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 28px;
+    text-align: right;
+    color: #444444;
+}
+.txt20 {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 29px;
+    color: #444444;
+}
+.txt18 {
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+	color: #888888;
+}
+
+.largeCheckbox {
+    width: 15px;
+	height: 15px;
+	margin-right:2px;
+}
+.txt16 {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	color: #888888;
+	font-style: normal;
+}
+.txt14 {
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 18px;
+	color: #888888;
+}
+.txtDark {
+	color: #444444;
+}
+.textLink {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	text-align: right;
+	color: #5592FF;
+}
+
+.btn {
+	height: 54px;
+	min-width: 54px;
+	width: 60%;
+	color: #fff;
+	background: #071A3C;
+	border-radius: 27px;
+
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+	text-align: center;
+	color: #FFFFFF;
+	padding: 0 20px;
+	border: 0;
+	white-space: nowrap;
+}
